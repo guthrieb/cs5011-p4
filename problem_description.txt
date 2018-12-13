@@ -1,0 +1,21 @@
+Depending on email type
+	HIgh or low risk of phising attack
+	3% probability of incorrect assessment
+
+When maintanence is planned
+	Firewall switched off when maintanence is planned has a 5% chance of occurring
+	2% chance of vulnerability caused due to misinformation
+	These are high risk occurrences
+
+DDOS
+	360/365 days are political
+	100/365 days are holidays
+	These are high risk times
+
+Alert on
+	80% probability of high risk
+
+Logging system
+	Logs whether an activity was normal or anomalous after investigation
+	30% probability of giving wrong answer
+	
