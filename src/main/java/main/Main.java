@@ -68,21 +68,6 @@ public class Main {
 
 
         network.validate();
-
-        //EXECUTE QUERY
-        EnumerationQuery query = new EnumerationQuery(network);
-
-//        query.defineEventType(loggingResult, EventType.Evidence);
-        query.defineEventType(logInformation, EventType.Evidence);
-        query.defineEventType(logAnomalous, EventType.Outcome);
-        query.setEventValue(logInformation, true);
-//        query.setEventValue(loggingResult, true);
-        query.setEventValue(logAnomalous, true);
-
-        query.execute();
-        System.out.println(query.toString());
-
-
         return network;
     }
 
