@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BIF VERSION="0.3"  xmlns="http://www.cs.ubc.ca/labs/lci/fopi/ve/XMLBIFv0_3"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.cs.ubc.ca/labs/lci/fopi/ve/XMLBIFv0_3 http://www.cs.ubc.ca/labs/lci/fopi/ve/XMLBIFv0_3/XMLBIFv0_3.xsd">
+<NETWORK>
+<NAME>Untitled</NAME>
+<PROPERTY>detailed = </PROPERTY>
+<PROPERTY>short = </PROPERTY>
+
+<VARIABLE TYPE="nature">
+	<NAME>Email Detected</NAME>
+	<OUTCOME>T</OUTCOME>
+	<OUTCOME>F</OUTCOME>
+	<PROPERTY>position = (7346.0, 5097.0)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Email Type Detected</NAME>
+	<OUTCOME>Business</OUTCOME>
+	<OUTCOME>Personal</OUTCOME>
+	<OUTCOME>No Email</OUTCOME>
+	<PROPERTY>position = (7347.0, 5191.0)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Misinformation Error</NAME>
+	<OUTCOME>T</OUTCOME>
+	<OUTCOME>F</OUTCOME>
+	<PROPERTY>position = (7509.0, 5192.0)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Email Risk Level</NAME>
+	<OUTCOME>High</OUTCOME>
+	<OUTCOME>Low</OUTCOME>
+	<PROPERTY>position = (7353.0, 5333.0)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Maintenance Planned</NAME>
+	<OUTCOME>T</OUTCOME>
+	<OUTCOME>F</OUTCOME>
+	<PROPERTY>position = (7724.0, 5092.0)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Firewall Down</NAME>
+	<OUTCOME>T</OUTCOME>
+	<OUTCOME>F</OUTCOME>
+	<PROPERTY>position = (7724.0, 5198.0)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Maintenance Information Out Of Date</NAME>
+	<OUTCOME>T</OUTCOME>
+	<OUTCOME>F</OUTCOME>
+	<PROPERTY>position = (7973.0, 5087.0)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Maintenance Risk Level</NAME>
+	<OUTCOME>High</OUTCOME>
+	<OUTCOME>Low</OUTCOME>
+	<PROPERTY>position = (7846.0, 5327.0)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Out Of Date Vulnerability</NAME>
+	<OUTCOME>T</OUTCOME>
+	<OUTCOME>F</OUTCOME>
+	<PROPERTY>position = (7973.0, 5199.0)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Holiday/Political Day</NAME>
+	<OUTCOME>T</OUTCOME>
+	<OUTCOME>F</OUTCOME>
+	<PROPERTY>position = (8268.0, 5080.0)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Day Risk</NAME>
+	<OUTCOME>High</OUTCOME>
+	<OUTCOME>Low</OUTCOME>
+	<PROPERTY>position = (8256.0, 5326.0)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Overall Risk</NAME>
+	<OUTCOME>High</OUTCOME>
+	<OUTCOME>Low</OUTCOME>
+	<PROPERTY>position = (7839.0, 5469.0)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Alert Triggered</NAME>
+	<OUTCOME>T</OUTCOME>
+	<OUTCOME>F</OUTCOME>
+	<PROPERTY>position = (7835.0, 5613.0)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Investigation</NAME>
+	<OUTCOME>T</OUTCOME>
+	<OUTCOME>F</OUTCOME>
+	<PROPERTY>position = (7833.0, 5714.0)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Investigation Result</NAME>
+	<OUTCOME>Anomalous</OUTCOME>
+	<OUTCOME>Normal</OUTCOME>
+	<PROPERTY>position = (7836.0, 5809.0)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Log Anomalous</NAME>
+	<OUTCOME>T</OUTCOME>
+	<OUTCOME>F</OUTCOME>
+	<PROPERTY>position = (7688.0, 5924.0)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Log Normal</NAME>
+	<OUTCOME>T</OUTCOME>
+	<OUTCOME>F</OUTCOME>
+	<PROPERTY>position = (7947.0, 5919.0)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Logging Error</NAME>
+	<OUTCOME>T</OUTCOME>
+	<OUTCOME>F</OUTCOME>
+	<PROPERTY>position = (8022.0, 5826.0)</PROPERTY>
+</VARIABLE>
+
+<DEFINITION>
+	<FOR>Email Detected</FOR>
+	<TABLE>0.9 0.1</TABLE>
+</DEFINITION>
+
+<DEFINITION>
+	<FOR>Email Type Detected</FOR>
+	<GIVEN>Email Detected</GIVEN>
+	<TABLE>0.9 0.1 0.0 0.9 0.1 0.0</TABLE>
+</DEFINITION>
+
+<DEFINITION>
+	<FOR>Misinformation Error</FOR>
+	<TABLE>0.5 0.5</TABLE>
+</DEFINITION>
+
+<DEFINITION>
+	<FOR>Email Risk Level</FOR>
+	<GIVEN>Email Type Detected</GIVEN>
+	<GIVEN>Misinformation Error</GIVEN>
+	<TABLE>1.0 0.0 0.0 1.0 0.0 1.0 1.0 0.0 0.0 1.0 0.0 1.0</TABLE>
+</DEFINITION>
+
+<DEFINITION>
+	<FOR>Maintenance Planned</FOR>
+	<TABLE>0.5 0.5</TABLE>
+</DEFINITION>
+
+<DEFINITION>
+	<FOR>Firewall Down</FOR>
+	<GIVEN>Maintenance Planned</GIVEN>
+	<TABLE>0.5 0.5 0.5 0.5</TABLE>
+</DEFINITION>
+
+<DEFINITION>
+	<FOR>Maintenance Information Out Of Date</FOR>
+	<TABLE>0.5 0.5</TABLE>
+</DEFINITION>
+
+<DEFINITION>
+	<FOR>Maintenance Risk Level</FOR>
+	<GIVEN>Firewall Down</GIVEN>
+	<GIVEN>Out Of Date Vulnerability</GIVEN>
+	<TABLE>1.0 0.0 1.0 0.0 1.0 0.0 0.0 1.0</TABLE>
+</DEFINITION>
+
+<DEFINITION>
+	<FOR>Out Of Date Vulnerability</FOR>
+	<GIVEN>Maintenance Planned</GIVEN>
+	<GIVEN>Maintenance Information Out Of Date</GIVEN>
+	<TABLE>1.0 0.0 0.0 1.0 0.0 1.0 0.0 1.0</TABLE>
+</DEFINITION>
+
+<DEFINITION>
+	<FOR>Holiday/Political Day</FOR>
+	<TABLE>0.27778 0.72222</TABLE>
+</DEFINITION>
+
+<DEFINITION>
+	<FOR>Day Risk</FOR>
+	<GIVEN>Holiday/Political Day</GIVEN>
+	<TABLE>1.0 0.0 0.0 1.0</TABLE>
+</DEFINITION>
+
+<DEFINITION>
+	<FOR>Overall Risk</FOR>
+	<GIVEN>Email Risk Level</GIVEN>
+	<GIVEN>Maintenance Risk Level</GIVEN>
+	<GIVEN>Day Risk</GIVEN>
+	<TABLE>0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.4999 0.5001</TABLE>
+</DEFINITION>
+
+<DEFINITION>
+	<FOR>Alert Triggered</FOR>
+	<GIVEN>Overall Risk</GIVEN>
+	<TABLE>0.8 0.2 0.0 1.0</TABLE>
+</DEFINITION>
+
+<DEFINITION>
+	<FOR>Investigation</FOR>
+	<GIVEN>Alert Triggered</GIVEN>
+	<TABLE>1.0 0.0 0.0 1.0</TABLE>
+</DEFINITION>
+
+<DEFINITION>
+	<FOR>Investigation Result</FOR>
+	<GIVEN>Investigation</GIVEN>
+	<TABLE>0.4999 0.5001 0.4999 0.5001</TABLE>
+</DEFINITION>
+
+<DEFINITION>
+	<FOR>Log Anomalous</FOR>
+	<GIVEN>Investigation Result</GIVEN>
+	<GIVEN>Logging Error</GIVEN>
+	<TABLE>0.0 1.0 1.0 0.0 1.0 0.0 0.0 1.0</TABLE>
+</DEFINITION>
+
+<DEFINITION>
+	<FOR>Log Normal</FOR>
+	<GIVEN>Investigation Result</GIVEN>
+	<GIVEN>Logging Error</GIVEN>
+	<TABLE>1.0 0.0 0.0 1.0 0.0 1.0 1.0 0.0</TABLE>
+</DEFINITION>
+
+<DEFINITION>
+	<FOR>Logging Error</FOR>
+	<TABLE>0.3 0.7</TABLE>
+</DEFINITION>
+</NETWORK>
+</BIF>

@@ -18,4 +18,10 @@ Alert on
 Logging system
 	Logs whether an activity was normal or anomalous after investigation
 	30% probability of giving wrong answer
-	
+
+
+
+
+Investigations can occassionally (0.1%) fail to be completed due to bureaucratic error at which point no information will be logged
+
+If emails come from an internal domain and are personal they are considered low risk of phishing, emails are 90/10 internal to external typically by business emails, emails are 15/85 internal to external for personal emails probibalistically
