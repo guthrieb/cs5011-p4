@@ -18,7 +18,7 @@ public class Main {
     public static void main(String[] args) {
         BayesianNetwork network = constructBN1();
 
-
+        network.getEvents();
     }
 
     public static BayesianNetwork constructBN1() {
@@ -178,9 +178,13 @@ public class Main {
 
     private static void addMaintenanceDependencies(BayesianNetwork network, BayesianEvent maintenancePlanned, BayesianEvent firewallDown, BayesianEvent maintenanceRiskLevel, BayesianEvent maintenanceInfoOutOfDate, BayesianEvent outOfDateVulnerability) {
         network.createDependency(maintenancePlanned, firewallDown);
-        network.createDependency(firewallDown, maintenanceRiskLevel);
-        network.createDependency(maintenanceInfoOutOfDate, outOfDateVulnerability);
         network.createDependency(maintenancePlanned, outOfDateVulnerability);
+
+        network.createDependency(firewallDown, maintenanceRiskLevel);
+
+        network.createDependency(maintenanceInfoOutOfDate, outOfDateVulnerability);
+
+
         network.createDependency(outOfDateVulnerability, maintenanceRiskLevel);
     }
 
