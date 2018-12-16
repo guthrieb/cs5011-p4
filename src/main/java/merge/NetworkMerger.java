@@ -28,7 +28,6 @@ public class NetworkMerger {
         HashMap<String, List<Probability>> aProbabilities = getProbabilities(a);
         HashMap<String, List<Probability>> bProbabilities = getProbabilities(b);
 
-        System.out.println(aProbabilities);
 
         HashMap<String, List<Dependency>> newDependencies = new HashMap<>();
         HashMap<String, List<Probability>> newProbabilityTables = new HashMap<>();
@@ -38,7 +37,6 @@ public class NetworkMerger {
 
         addZe(ze, aDependencies, aProbabilities, bDependencies, bProbabilities, newDependencies, newProbabilityTables);
 
-        System.out.println(newProbabilityTables);
         NetworkConstructor constructor = new NetworkConstructor();
         List<Dependency> dependencyList = new ArrayList<>();
         for(List<Dependency> dependencies : newDependencies.values()) {
@@ -58,6 +56,7 @@ public class NetworkMerger {
                        HashMap<String, List<Dependency>> newDependencies, HashMap<String, List<Probability>> newProbabilityTables) {
 
         for (String label : ze) {
+
             List<Dependency> aLabelDependencies = aDependencies.get(label);
             List<Dependency> bLabelDependencies = bDependencies.get(label);
             List<Probability> aLabelProbabilities = aProbabilities.get(label);
@@ -122,11 +121,11 @@ public class NetworkMerger {
             List<Probability> bLabelProbabilities = bProbabilities.get(label);
 
             if (notSubsetOf(aLabelDependencies, z)) {
-                newDependencies.put(label, bLabelDependencies);
-                newProbabilityTables.put(label, bLabelProbabilities);
-            } else if (notSubsetOf(bLabelDependencies, z)) {
                 newDependencies.put(label, aLabelDependencies);
                 newProbabilityTables.put(label, aLabelProbabilities);
+            } else if (notSubsetOf(bLabelDependencies, z)) {
+                newDependencies.put(label, bLabelDependencies);
+                newProbabilityTables.put(label, bLabelProbabilities);
             } else {
                 if (aLabelDependencies.size() > bLabelDependencies.size()) {
                     newDependencies.put(label, aLabelDependencies);
@@ -155,7 +154,6 @@ public class NetworkMerger {
                       HashMap<String, List<Dependency>> newDependencies, HashMap<String, List<Probability>> newProbabilityTables) {
 
         for (String label : notIntersection) {
-            System.out.println(aDependencies.containsKey(label));
             List<Dependency> dependencies;
             List<Probability> probabilities;
             if (aDependencies.containsKey(label)) {
@@ -285,49 +283,52 @@ public class NetworkMerger {
 
     public static void main(String[] args) {
         BayesianNetwork network1 = new BayesianNetwork();
-        BayesianEvent e1 = network1.createEvent("e");
+        BayesianEvent b1 = network1.createEvent("b");
+        BayesianEvent c1 = network1.createEvent("c");
         BayesianEvent d1 = network1.createEvent("d");
 
         BayesianNetwork network2 = new BayesianNetwork();
-        BayesianEvent f1 = network2.createEvent("f");
+        BayesianEvent a2 = network2.createEvent("a");
+        BayesianEvent b2 = network2.createEvent("b");
         BayesianEvent d2 = network2.createEvent("d");
 
-        network1.createDependency(e1, d1);
-        network2.createDependency(f1, d2);
+        network1.createDependency(b1, c1);
+        network1.createDependency(c1, d1);
+        network2.createDependency(a2, d2);
+        network2.createDependency(a2, b2);
         network1.finalizeStructure();
         network2.finalizeStructure();
+
+        a2.getTable().addLine(0.05, true);
+        b2.getTable().addLine(0.4, true, true);
+        b2.getTable().addLine(0.6, true, false);
+        d2.getTable().addLine(0.8, true, true);
+        d2.getTable().addLine(0.6, true, false);
+
+        b1.getTable().addLine(0.2, true);
+        c1.getTable().addLine(0.99, true, true);
+        c1.getTable().addLine(0.7, true, false);
         d1.getTable().addLine(0.8, true, true);
         d1.getTable().addLine(0.6, true, false);
 
-
-        d2.getTable().addLine(0.3, true, true);
-        d2.getTable().addLine(0.6, true, false);
-
-        e1.getTable().addLine(0.5, true);
-        f1.getTable().addLine(0.5, true);
         network1.validate();
         network2.validate();
 
         NetworkMerger merger = new NetworkMerger();
         BayesianNetwork merge = merger.merge(network1, network2);
-        System.out.println(merge.getEvents());
 
         EnumerationQuery query = new EnumerationQuery(merge);
+        BayesianEvent a = merge.getEvent("a");
+        BayesianEvent b = merge.getEvent("b");
+        BayesianEvent c = merge.getEvent("c");
         BayesianEvent d = merge.getEvent("d");
-        BayesianEvent e = merge.getEvent("e");
-        BayesianEvent f = merge.getEvent("f");
-
-        System.out.println(merge.toString());
-        query.defineEventType(e, EventType.Evidence);
-        query.defineEventType(f, EventType.Evidence);
+        query.defineEventType(a, EventType.Evidence);
+        query.defineEventType(c, EventType.Evidence);
         query.defineEventType(d, EventType.Outcome);
-
-        query.setEventValue(e, true);
-        query.setEventValue(d, true);
-        query.setEventValue(f, true);
+        query.setEventValue(c, true);
+        query.setEventValue(a, true);
+        query.setEventValue(d, false);
 
         query.execute();
-        System.out.println(query.toString());
-
     }
 }
