@@ -28,11 +28,13 @@ public class Probability {
     }
 
     static Probability combineProbability(Probability p1, Probability p2) {
+        System.out.println("Combining probabilities: " + p1.probability + "," + p2.probability);
         double newProbability = p1.probability + p2.probability - p1.probability*p2.probability;
 
         boolean[] res = Arrays.copyOf(p1.arguments, p1.arguments.length + p2.arguments.length);
         System.arraycopy(p2.arguments, 0, res, p1.arguments.length, p2.arguments.length);
 
+        System.out.println(newProbability);
         return new Probability(newProbability, res, p1.result);
     }
 

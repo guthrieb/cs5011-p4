@@ -67,33 +67,45 @@ public class NetworkMerger {
             combinedDependencies.addAll(bLabelDependencies);
 
             List<Probability> combinedProbabilities = new ArrayList<>();
+            List<Probability> unalteredCombinedProbabilities = new ArrayList<>(aLabelProbabilities);
+            unalteredCombinedProbabilities.addAll(bLabelProbabilities);
 
+            HashMap<String, List<Double>> probLines = new HashMap<>();
             for (Probability aProbability : aLabelProbabilities) {
                 for (Probability bProbability : bLabelProbabilities) {
                     if (aProbability.result == bProbability.result) {
-                        combinedProbabilities.add(Probability.combineProbability(aProbability, bProbability));
+                        Probability combinedProbability = Probability.combineProbability(aProbability, bProbability);
+                        combinedProbabilities.add(combinedProbability);
+
+                        String stringified = convertToString(combinedProbability.arguments);
+
+                        List<Double> probLine = new ArrayList<>();
+                        if(probLines.containsKey(stringified)) {
+                            probLine = probLines.get(stringified);
+                        }
+
+                        probLine.add(combinedProbability.probability);
+
+                        probLines.put(stringified, probLine);
+
                     }
                 }
             }
 
-            HashMap<String, Double> sums = new HashMap<>();
-            for (Probability probability : combinedProbabilities) {
-                String convertToString = convertToString(probability.arguments);
-                double sum = 0;
-                if(sums.containsKey(convertToString)) {
+            System.out.println(probLines);
+            for(Probability probability : combinedProbabilities) {
+                List<Double> probabilities = probLines.get(convertToString(probability.arguments));
 
-                    sum = sums.get(convertToString);
+                System.out.println("Normalising: " + probability.probability);
+                double sum = 0;
+                for(Double probability1 : probabilities) {
+                    System.out.println(probability1);
+                    sum += probability1;
                 }
 
-                sum += probability.probability;
-                sums.put(convertToString, sum);
+                probability.probability/=sum;
             }
 
-            for (Probability probability : combinedProbabilities) {
-                double sum = sums.get(convertToString(probability.arguments));
-
-                probability.probability /= sum;
-            }
 
             newDependencies.put(label, new ArrayList<>(combinedDependencies));
             newProbabilityTables.put(label, combinedProbabilities);
@@ -283,31 +295,30 @@ public class NetworkMerger {
 
     public static void main(String[] args) {
         BayesianNetwork network1 = new BayesianNetwork();
-        BayesianEvent b1 = network1.createEvent("b");
+//        BayesianEvent b1 = network1.createEvent("b");
         BayesianEvent c1 = network1.createEvent("c");
         BayesianEvent d1 = network1.createEvent("d");
 
         BayesianNetwork network2 = new BayesianNetwork();
         BayesianEvent a2 = network2.createEvent("a");
-        BayesianEvent b2 = network2.createEvent("b");
+//        BayesianEvent b2 = network2.createEvent("b");
         BayesianEvent d2 = network2.createEvent("d");
 
-        network1.createDependency(b1, c1);
+//        network1.createDependency(b1, c1);
         network1.createDependency(c1, d1);
         network2.createDependency(a2, d2);
-        network2.createDependency(a2, b2);
+//        network2.createDependency(a2, b2);
         network1.finalizeStructure();
         network2.finalizeStructure();
 
         a2.getTable().addLine(0.05, true);
-        b2.getTable().addLine(0.4, true, true);
-        b2.getTable().addLine(0.6, true, false);
+//        b2.getTable().addLine(0.4, true, true);
+//        b2.getTable().addLine(0.6, true, false);
         d2.getTable().addLine(0.8, true, true);
         d2.getTable().addLine(0.6, true, false);
 
-        b1.getTable().addLine(0.2, true);
-        c1.getTable().addLine(0.99, true, true);
-        c1.getTable().addLine(0.7, true, false);
+//        b1.getTable().addLine(0.2, true);
+        c1.getTable().addLine(0.99, true);
         d1.getTable().addLine(0.8, true, true);
         d1.getTable().addLine(0.6, true, false);
 
@@ -319,7 +330,7 @@ public class NetworkMerger {
 
         EnumerationQuery query = new EnumerationQuery(merge);
         BayesianEvent a = merge.getEvent("a");
-        BayesianEvent b = merge.getEvent("b");
+//        BayesianEvent b = merge.getEvent("b");
         BayesianEvent c = merge.getEvent("c");
         BayesianEvent d = merge.getEvent("d");
         query.defineEventType(a, EventType.Evidence);
@@ -330,5 +341,6 @@ public class NetworkMerger {
         query.setEventValue(d, false);
 
         query.execute();
+        System.out.println(query.toString());
     }
 }
