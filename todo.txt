@@ -1,0 +1,15 @@
+TODO Adjust network in bayes.jar -> Adjust coded network
+
+TODO make network 2 in bayes.jar
+
+TODO make network 2 in code
+
+TODO write example queries
+
+TODO illustrate differences in network1 and network2
+
+TODO execute example queries in code
+
+TODO write report
+
+TODO make network1 more explicit

@@ -1,0 +1,26 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{todonotes}
+
+\author{150016853}
+\title{CS5011 - P4}
+\begin{document}
+\maketitle
+
+\section{Overview}
+
+A specification has been provided in which multiple bayesian networks have been constructed and analysed. 
+\todo{list implementated parts}
+\todo{literature review}
+
+\section{Part 1}
+
+\section{Design Procedure}
+
+The primary procedure for design focussed on segmentation and semantics: At each point of construction, required for the given network,  establishing the causal chain of probabilities that most accurately correlate to the English representation of the problem. More importantly creating causal chains which don't correspond directly to the English interpretation intuitively. 
+
+Another focus in the design decisions was the distinction between implicit and explicit declaration of variables through events. For example if we were to put in an event which was the receipt of an email and that email can be one of a business or personal email, the inclusion of an event describing if that email is a business email can potentially remove the requirement to include an event expressing that a personal email has arrived, given that it is implicit that since an email has arrived and it is not a business email that is must therefore be a personal email. This, however may limit how we express our queries, where a more expressive query is often easier to understand. That being said it does also increase the set of events we require to fully describe our network. For this specification it has been decided that an explicit declaration of our variables through inclusion of more nodes in our graphs was more appropriate, especially given the small scale of the networks.
+\end{document}

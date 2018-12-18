@@ -33,6 +33,7 @@ public class NetworkMerger {
         HashMap<String, List<Probability>> newProbabilityTables = new HashMap<>();
 
         addQ(notIntersection, aDependencies, aProbabilities, bDependencies, bProbabilities, newDependencies, newProbabilityTables);
+
         addZi(zi, intersection, aDependencies, aProbabilities, bDependencies, bProbabilities, newDependencies, newProbabilityTables);
 
         addZe(ze, aDependencies, aProbabilities, bDependencies, bProbabilities, newDependencies, newProbabilityTables);
@@ -45,9 +46,8 @@ public class NetworkMerger {
             }
         }
 
-        BayesianNetwork construct = constructor.construct(allLabels, dependencyList, newProbabilityTables);
 
-        return construct;
+        return constructor.construct(allLabels, dependencyList, newProbabilityTables);
     }
 
     private void addZe(Set<String> ze,
@@ -92,14 +92,13 @@ public class NetworkMerger {
                 }
             }
 
-            System.out.println(probLines);
             for(Probability probability : combinedProbabilities) {
                 List<Double> probabilities = probLines.get(convertToString(probability.arguments));
 
-                System.out.println("Normalising: " + probability.probability);
+
                 double sum = 0;
                 for(Double probability1 : probabilities) {
-                    System.out.println(probability1);
+
                     sum += probability1;
                 }
 
@@ -186,9 +185,15 @@ public class NetworkMerger {
 
         for (BayesianEvent event : a.getEvents()) {
             BayesianTable table = event.getTable();
+            List<BayesianEvent> parents = event.getParents();
+            List<String> inputs = new ArrayList<>();
+            for(BayesianEvent parent : parents) {
+                inputs.add(parent.getLabel());
+            }
+
             for (TableLine line : table.getLines()) {
 
-                Probability probability = new Probability(line);
+                Probability probability = new Probability(line, inputs);
 
                 List<Probability> probabilitiesList;
                 if (probabilities.containsKey(event.getLabel())) {
@@ -291,56 +296,5 @@ public class NetworkMerger {
             }
         }
         return true;
-    }
-
-    public static void main(String[] args) {
-        BayesianNetwork network1 = new BayesianNetwork();
-//        BayesianEvent b1 = network1.createEvent("b");
-        BayesianEvent c1 = network1.createEvent("c");
-        BayesianEvent d1 = network1.createEvent("d");
-
-        BayesianNetwork network2 = new BayesianNetwork();
-        BayesianEvent a2 = network2.createEvent("a");
-//        BayesianEvent b2 = network2.createEvent("b");
-        BayesianEvent d2 = network2.createEvent("d");
-
-//        network1.createDependency(b1, c1);
-        network1.createDependency(c1, d1);
-        network2.createDependency(a2, d2);
-//        network2.createDependency(a2, b2);
-        network1.finalizeStructure();
-        network2.finalizeStructure();
-
-        a2.getTable().addLine(0.05, true);
-//        b2.getTable().addLine(0.4, true, true);
-//        b2.getTable().addLine(0.6, true, false);
-        d2.getTable().addLine(0.8, true, true);
-        d2.getTable().addLine(0.6, true, false);
-
-//        b1.getTable().addLine(0.2, true);
-        c1.getTable().addLine(0.99, true);
-        d1.getTable().addLine(0.8, true, true);
-        d1.getTable().addLine(0.6, true, false);
-
-        network1.validate();
-        network2.validate();
-
-        NetworkMerger merger = new NetworkMerger();
-        BayesianNetwork merge = merger.merge(network1, network2);
-
-        EnumerationQuery query = new EnumerationQuery(merge);
-        BayesianEvent a = merge.getEvent("a");
-//        BayesianEvent b = merge.getEvent("b");
-        BayesianEvent c = merge.getEvent("c");
-        BayesianEvent d = merge.getEvent("d");
-        query.defineEventType(a, EventType.Evidence);
-        query.defineEventType(c, EventType.Evidence);
-        query.defineEventType(d, EventType.Outcome);
-        query.setEventValue(c, true);
-        query.setEventValue(a, true);
-        query.setEventValue(d, false);
-
-        query.execute();
-        System.out.println(query.toString());
     }
 }

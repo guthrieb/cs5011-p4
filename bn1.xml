@@ -8,173 +8,193 @@
 <PROPERTY>short = </PROPERTY>
 
 <VARIABLE TYPE="nature">
-	<NAME>Email Detected</NAME>
+	<NAME>Email Received</NAME>
 	<OUTCOME>T</OUTCOME>
 	<OUTCOME>F</OUTCOME>
-	<PROPERTY>position = (7346.0, 5097.0)</PROPERTY>
+	<PROPERTY>position = (7332.28466796875, 4968.85546875)</PROPERTY>
 </VARIABLE>
 
 <VARIABLE TYPE="nature">
-	<NAME>Email Type Detected</NAME>
-	<OUTCOME>Business</OUTCOME>
-	<OUTCOME>Personal</OUTCOME>
-	<OUTCOME>No Email</OUTCOME>
-	<PROPERTY>position = (7347.0, 5191.0)</PROPERTY>
-</VARIABLE>
-
-<VARIABLE TYPE="nature">
-	<NAME>Misinformation Error</NAME>
+	<NAME>Business Email</NAME>
 	<OUTCOME>T</OUTCOME>
 	<OUTCOME>F</OUTCOME>
-	<PROPERTY>position = (7509.0, 5192.0)</PROPERTY>
+	<PROPERTY>position = (7190.11962890625, 5059.8544921875)</PROPERTY>
 </VARIABLE>
 
 <VARIABLE TYPE="nature">
-	<NAME>Email Risk Level</NAME>
+	<NAME>Email Misinformation Error</NAME>
+	<OUTCOME>T</OUTCOME>
+	<OUTCOME>F</OUTCOME>
+	<PROPERTY>position = (7428.08203125, 5133.3193359375)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Actual Email Risk Level</NAME>
 	<OUTCOME>High</OUTCOME>
 	<OUTCOME>Low</OUTCOME>
-	<PROPERTY>position = (7353.0, 5333.0)</PROPERTY>
+	<PROPERTY>position = (7268.78076171875, 5135.3193359375)</PROPERTY>
 </VARIABLE>
 
 <VARIABLE TYPE="nature">
 	<NAME>Maintenance Planned</NAME>
 	<OUTCOME>T</OUTCOME>
 	<OUTCOME>F</OUTCOME>
-	<PROPERTY>position = (7724.0, 5092.0)</PROPERTY>
+	<PROPERTY>position = (7522.53466796875, 5050.04248046875)</PROPERTY>
 </VARIABLE>
 
 <VARIABLE TYPE="nature">
 	<NAME>Firewall Down</NAME>
 	<OUTCOME>T</OUTCOME>
 	<OUTCOME>F</OUTCOME>
-	<PROPERTY>position = (7724.0, 5198.0)</PROPERTY>
+	<PROPERTY>position = (7522.53466796875, 5095.908203125)</PROPERTY>
 </VARIABLE>
 
 <VARIABLE TYPE="nature">
 	<NAME>Maintenance Information Out Of Date</NAME>
 	<OUTCOME>T</OUTCOME>
 	<OUTCOME>F</OUTCOME>
-	<PROPERTY>position = (7973.0, 5087.0)</PROPERTY>
+	<PROPERTY>position = (7640.751953125, 5047.5)</PROPERTY>
 </VARIABLE>
 
 <VARIABLE TYPE="nature">
-	<NAME>Maintenance Risk Level</NAME>
+	<NAME>Detected Maintenance Risk Level</NAME>
 	<OUTCOME>High</OUTCOME>
 	<OUTCOME>Low</OUTCOME>
-	<PROPERTY>position = (7846.0, 5327.0)</PROPERTY>
+	<PROPERTY>position = (7584.93798828125, 5139.10009765625)</PROPERTY>
 </VARIABLE>
 
 <VARIABLE TYPE="nature">
 	<NAME>Out Of Date Vulnerability</NAME>
 	<OUTCOME>T</OUTCOME>
 	<OUTCOME>F</OUTCOME>
-	<PROPERTY>position = (7973.0, 5199.0)</PROPERTY>
+	<PROPERTY>position = (7641.36181640625, 5097.51220703125)</PROPERTY>
 </VARIABLE>
 
 <VARIABLE TYPE="nature">
 	<NAME>Holiday/Political Day</NAME>
 	<OUTCOME>T</OUTCOME>
 	<OUTCOME>F</OUTCOME>
-	<PROPERTY>position = (8268.0, 5080.0)</PROPERTY>
+	<PROPERTY>position = (7743.88037109375, 5140.3916015625)</PROPERTY>
 </VARIABLE>
 
 <VARIABLE TYPE="nature">
-	<NAME>Day Risk</NAME>
+	<NAME>Day Risk Level</NAME>
 	<OUTCOME>High</OUTCOME>
 	<OUTCOME>Low</OUTCOME>
-	<PROPERTY>position = (8256.0, 5326.0)</PROPERTY>
+	<PROPERTY>position = (7745.93798828125, 5199.603515625)</PROPERTY>
 </VARIABLE>
 
 <VARIABLE TYPE="nature">
 	<NAME>Overall Risk Detected</NAME>
 	<OUTCOME>High</OUTCOME>
 	<OUTCOME>Low</OUTCOME>
-	<PROPERTY>position = (7839.0, 5469.0)</PROPERTY>
+	<PROPERTY>position = (7576.14208984375, 5201.9326171875)</PROPERTY>
 </VARIABLE>
 
 <VARIABLE TYPE="nature">
 	<NAME>Alert Triggered</NAME>
 	<OUTCOME>T</OUTCOME>
 	<OUTCOME>F</OUTCOME>
-	<PROPERTY>position = (7835.0, 5613.0)</PROPERTY>
+	<PROPERTY>position = (7576.30712890625, 5256.56982421875)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Detected Email Risk Level</NAME>
+	<OUTCOME>High</OUTCOME>
+	<OUTCOME>Low</OUTCOME>
+	<PROPERTY>position = (7395.2802734375, 5201.9072265625)</PROPERTY>
 </VARIABLE>
 
 <VARIABLE TYPE="nature">
 	<NAME>Investigation</NAME>
 	<OUTCOME>T</OUTCOME>
 	<OUTCOME>F</OUTCOME>
-	<PROPERTY>position = (7833.0, 5714.0)</PROPERTY>
+	<PROPERTY>position = (7577.341796875, 5310.29296875)</PROPERTY>
 </VARIABLE>
 
 <VARIABLE TYPE="nature">
-	<NAME>Investigation Result</NAME>
-	<OUTCOME>Anomalous</OUTCOME>
-	<OUTCOME>Normal</OUTCOME>
-	<PROPERTY>position = (7836.0, 5809.0)</PROPERTY>
-</VARIABLE>
-
-<VARIABLE TYPE="nature">
-	<NAME>Log Anomalous</NAME>
+	<NAME>Anomalous Ruling</NAME>
 	<OUTCOME>T</OUTCOME>
 	<OUTCOME>F</OUTCOME>
-	<PROPERTY>position = (7688.0, 5924.0)</PROPERTY>
+	<PROPERTY>position = (7577.951171875, 5353.525390625)</PROPERTY>
 </VARIABLE>
 
 <VARIABLE TYPE="nature">
-	<NAME>Log Normal</NAME>
+	<NAME>Normal Ruling</NAME>
 	<OUTCOME>T</OUTCOME>
 	<OUTCOME>F</OUTCOME>
-	<PROPERTY>position = (7947.0, 5919.0)</PROPERTY>
+	<PROPERTY>position = (7758.01611328125, 5353.3037109375)</PROPERTY>
 </VARIABLE>
 
 <VARIABLE TYPE="nature">
 	<NAME>Logging Error</NAME>
 	<OUTCOME>T</OUTCOME>
 	<OUTCOME>F</OUTCOME>
-	<PROPERTY>position = (8022.0, 5826.0)</PROPERTY>
+	<PROPERTY>position = (7405.58203125, 5348.93115234375)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Log Anomalous</NAME>
+	<OUTCOME>T</OUTCOME>
+	<OUTCOME>F</OUTCOME>
+	<PROPERTY>position = (7546.2880859375, 5404.67333984375)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Log Normal</NAME>
+	<OUTCOME>T</OUTCOME>
+	<OUTCOME>F</OUTCOME>
+	<PROPERTY>position = (7651.02001953125, 5406.5)</PROPERTY>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Personal Email</NAME>
+	<OUTCOME>T</OUTCOME>
+	<OUTCOME>F</OUTCOME>
+	<PROPERTY>position = (7332.0, 5058.0)</PROPERTY>
 </VARIABLE>
 
 <DEFINITION>
-	<FOR>Email Detected</FOR>
-	<TABLE>0.9 0.1</TABLE>
+	<FOR>Email Received</FOR>
+	<TABLE>0.99 0.01</TABLE>
 </DEFINITION>
 
 <DEFINITION>
-	<FOR>Email Type Detected</FOR>
-	<GIVEN>Email Detected</GIVEN>
-	<TABLE>0.9 0.1 0.0 0.0 0.0 1.0</TABLE>
+	<FOR>Business Email</FOR>
+	<GIVEN>Email Received</GIVEN>
+	<TABLE>0.9 0.1 0.0 1.0</TABLE>
 </DEFINITION>
 
 <DEFINITION>
-	<FOR>Misinformation Error</FOR>
-	<TABLE>0.5 0.5</TABLE>
+	<FOR>Email Misinformation Error</FOR>
+	<GIVEN>Email Received</GIVEN>
+	<TABLE>0.03 0.97 0.0 1.0</TABLE>
 </DEFINITION>
 
 <DEFINITION>
-	<FOR>Email Risk Level</FOR>
-	<GIVEN>Email Type Detected</GIVEN>
-	<GIVEN>Misinformation Error</GIVEN>
-	<TABLE>1.0 0.0 0.0 1.0 0.0 1.0 1.0 0.0 0.0 1.0 0.0 1.0</TABLE>
+	<FOR>Actual Email Risk Level</FOR>
+	<GIVEN>Personal Email</GIVEN>
+	<TABLE>1.0 0.0 0.0 1.0</TABLE>
 </DEFINITION>
 
 <DEFINITION>
 	<FOR>Maintenance Planned</FOR>
-	<TABLE>0.5 0.5</TABLE>
+	<TABLE>0.2 0.8</TABLE>
 </DEFINITION>
 
 <DEFINITION>
 	<FOR>Firewall Down</FOR>
 	<GIVEN>Maintenance Planned</GIVEN>
-	<TABLE>0.5 0.5 0.5 0.5</TABLE>
+	<TABLE>0.05 0.95 0.0 1.0</TABLE>
 </DEFINITION>
 
 <DEFINITION>
 	<FOR>Maintenance Information Out Of Date</FOR>
-	<TABLE>0.5 0.5</TABLE>
+	<TABLE>0.02 0.98</TABLE>
 </DEFINITION>
 
 <DEFINITION>
-	<FOR>Maintenance Risk Level</FOR>
+	<FOR>Detected Maintenance Risk Level</FOR>
 	<GIVEN>Firewall Down</GIVEN>
 	<GIVEN>Out Of Date Vulnerability</GIVEN>
 	<TABLE>1.0 0.0 1.0 0.0 1.0 0.0 0.0 1.0</TABLE>
@@ -193,17 +213,17 @@
 </DEFINITION>
 
 <DEFINITION>
-	<FOR>Day Risk</FOR>
+	<FOR>Day Risk Level</FOR>
 	<GIVEN>Holiday/Political Day</GIVEN>
 	<TABLE>1.0 0.0 0.0 1.0</TABLE>
 </DEFINITION>
 
 <DEFINITION>
 	<FOR>Overall Risk Detected</FOR>
-	<GIVEN>Email Risk Level</GIVEN>
-	<GIVEN>Maintenance Risk Level</GIVEN>
-	<GIVEN>Day Risk</GIVEN>
-	<TABLE>0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.4999 0.5001</TABLE>
+	<GIVEN>Detected Maintenance Risk Level</GIVEN>
+	<GIVEN>Day Risk Level</GIVEN>
+	<GIVEN>Detected Email Risk Level</GIVEN>
+	<TABLE>1.0 0.0 1.0 0.0 1.0 0.0 1.0 0.0 1.0 0.0 1.0 0.0 1.0 0.0 0.0 1.0</TABLE>
 </DEFINITION>
 
 <DEFINITION>
@@ -213,34 +233,56 @@
 </DEFINITION>
 
 <DEFINITION>
+	<FOR>Detected Email Risk Level</FOR>
+	<GIVEN>Email Misinformation Error</GIVEN>
+	<GIVEN>Actual Email Risk Level</GIVEN>
+	<TABLE>0.0 1.0 1.0 0.0 1.0 0.0 0.0 1.0</TABLE>
+</DEFINITION>
+
+<DEFINITION>
 	<FOR>Investigation</FOR>
 	<GIVEN>Alert Triggered</GIVEN>
 	<TABLE>1.0 0.0 0.0 1.0</TABLE>
 </DEFINITION>
 
 <DEFINITION>
-	<FOR>Investigation Result</FOR>
+	<FOR>Anomalous Ruling</FOR>
 	<GIVEN>Investigation</GIVEN>
-	<TABLE>0.4999 0.5001 0.4999 0.5001</TABLE>
+	<TABLE>0.1 0.9 0.0 1.0</TABLE>
+</DEFINITION>
+
+<DEFINITION>
+	<FOR>Normal Ruling</FOR>
+	<GIVEN>Investigation</GIVEN>
+	<GIVEN>Anomalous Ruling</GIVEN>
+	<TABLE>0.0 1.0 1.0 0.0 0.0 1.0 0.0 1.0</TABLE>
+</DEFINITION>
+
+<DEFINITION>
+	<FOR>Logging Error</FOR>
+	<GIVEN>Investigation</GIVEN>
+	<TABLE>0.3 0.7 0.0 1.0</TABLE>
 </DEFINITION>
 
 <DEFINITION>
 	<FOR>Log Anomalous</FOR>
-	<GIVEN>Investigation Result</GIVEN>
+	<GIVEN>Anomalous Ruling</GIVEN>
 	<GIVEN>Logging Error</GIVEN>
 	<TABLE>0.0 1.0 1.0 0.0 1.0 0.0 0.0 1.0</TABLE>
 </DEFINITION>
 
 <DEFINITION>
 	<FOR>Log Normal</FOR>
-	<GIVEN>Investigation Result</GIVEN>
+	<GIVEN>Normal Ruling</GIVEN>
 	<GIVEN>Logging Error</GIVEN>
-	<TABLE>1.0 0.0 0.0 1.0 0.0 1.0 1.0 0.0</TABLE>
+	<TABLE>0.0 1.0 1.0 0.0 1.0 0.0 0.0 1.0</TABLE>
 </DEFINITION>
 
 <DEFINITION>
-	<FOR>Logging Error</FOR>
-	<TABLE>0.3 0.7</TABLE>
+	<FOR>Personal Email</FOR>
+	<GIVEN>Email Received</GIVEN>
+	<GIVEN>Business Email</GIVEN>
+	<TABLE>0.0 1.0 1.0 0.0 0.0 1.0 0.0 1.0</TABLE>
 </DEFINITION>
 </NETWORK>
 </BIF>

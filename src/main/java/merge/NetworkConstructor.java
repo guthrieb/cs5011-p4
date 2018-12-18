@@ -20,15 +20,19 @@ public class NetworkConstructor {
         }
         network.finalizeStructure();
 
+
         for(String label : labels) {
             List<Probability> probabilityList = probabilities.get(label);
 
             BayesianEvent event = network.getEvent(label);
+            List<BayesianEvent> parents = event.getParents();
+
             BayesianTable table = event.getTable();
             for(Probability probability : probabilityList) {
                 boolean[] args = new boolean[probability.arguments.length];
                 for(int i = 0; i < probability.arguments.length; i++) {
-                    args[i] = probability.arguments[i];
+                    int correctIndex = probability.inputs.indexOf(parents.get(i).getLabel());
+                    args[correctIndex] = probability.arguments[i];
                 }
 
                 table.addLine(probability.probability, probability.result, args);
