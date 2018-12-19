@@ -4,6 +4,7 @@ import org.encog.ml.bayesian.BayesianEvent;
 import org.encog.ml.bayesian.BayesianNetwork;
 import org.encog.ml.bayesian.table.BayesianTable;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +32,8 @@ public class NetworkConstructor {
             for(Probability probability : probabilityList) {
                 boolean[] args = new boolean[probability.arguments.length];
                 for(int i = 0; i < probability.arguments.length; i++) {
+
+//                    System.out.println(parents);
                     int correctIndex = probability.inputs.indexOf(parents.get(i).getLabel());
                     args[correctIndex] = probability.arguments[i];
                 }

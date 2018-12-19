@@ -32,6 +32,9 @@ public class NetworkMerger {
         HashMap<String, List<Dependency>> newDependencies = new HashMap<>();
         HashMap<String, List<Probability>> newProbabilityTables = new HashMap<>();
 
+        System.out.println(zi);
+        System.out.println(ze);
+
         addQ(notIntersection, aDependencies, aProbabilities, bDependencies, bProbabilities, newDependencies, newProbabilityTables);
 
         addZi(zi, intersection, aDependencies, aProbabilities, bDependencies, bProbabilities, newDependencies, newProbabilityTables);
@@ -76,6 +79,7 @@ public class NetworkMerger {
                     if (aProbability.result == bProbability.result) {
                         Probability combinedProbability = Probability.combineProbability(aProbability, bProbability);
                         combinedProbabilities.add(combinedProbability);
+
 
                         String stringified = convertToString(combinedProbability.arguments);
 
@@ -214,9 +218,8 @@ public class NetworkMerger {
     private Set<String> getZi(Set<String> intersection, BayesianNetwork a, BayesianNetwork b) {
         Set<String> zi = new HashSet<String>();
 
+        System.out.println(intersection);
         for (String label : intersection) {
-
-
             BayesianEvent aEvent = a.getEvent(label);
             List<BayesianEvent> aParents = aEvent.getParents();
 
@@ -229,7 +232,7 @@ public class NetworkMerger {
 
             if (inner) {
                 zi.add(label);
-                break;
+                continue;
             }
 
             BayesianEvent bEvent = b.getEvent(label);
@@ -243,7 +246,6 @@ public class NetworkMerger {
 
             if (inner) {
                 zi.add(label);
-                break;
             }
         }
 
@@ -258,7 +260,7 @@ public class NetworkMerger {
     }
 
     private Set<String> getSubtraction(Set<String> intersection, Set<String> allLabels) {
-        Set<String> tmp = new HashSet<String>(allLabels);
+        Set<String> tmp = new HashSet<>(allLabels);
         tmp.removeAll(intersection);
         return tmp;
     }
