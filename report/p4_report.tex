@@ -16,6 +16,12 @@
 \section{Overview}
 
 A specification has been provided in which multiple bayesian networks have been constructed and analysed. 
+
+\begin{itemize}
+\item Built networks to specification
+\item Added 2 additional events to network
+\item Evaluated influence on adding events using 3 different queries
+\end{itemize}
 \todo{list implementated parts}
 \todo{literature review}
 
@@ -204,7 +210,13 @@ Across the first network it was found that there was a 41\% chance of having rec
 
 \subsubsection{Profiling}
 
+Let us consider the alert event for profiling. First allow us to consider when it is set true. We can guarantee that if it is true at least one of the detected email risk level, detected maintenance risk level or day risk level is high. If we run several queries across these events to establish the probability that given an alert occurs what is the chance we were in a high risk state across one of the risk levels we can establish the most likely high risk event leading to an alert being triggered, as well as the least likely. In running these queries we can determine that across network 1 with a 74.0\% chance of having occurred a high risk day was the most likely to be the case when an alert was triggered. Second to this was an email attack risk with a 32.7\% chance of being high risk and then maintenance attacks with a 3.7\% chance of being high risk when an alert is triggered.
 
+We can then observe how this changes across our two additional networks. For our second network we see that as we include our additional email event allowing business emails to be flagged as high risk we see the probability that the email attack was true given the alert happen increase to a 40.7\% chance across network 2 whilst the other 2 decrease, with maintenance risk dropping to a 3.4\% chance and day risk dropping to 68.6\% chance.
+
+Conversely if we look at the probability of any being high risk given no alert was triggered we can observe across all networks a slight chance that the alert has not occurred despite the fact a high risk status has been defined. With email attacks being true despite no alert at a 3.5\% across network 1 chance and 4.9\% chance across network 2, high risk days being true despite no alert at 8.9\% for network 1 and increasing to 8.2\% across network 2 and finally at 0.4\% for network 1 and remaining ~the same at 0.4\% for network 2 for maintenance risk.
+                                                             
+In then looking at the consequences of an alert being triggered, our probably most useful outcome to observe may be the likelihood that an anomalous or normal logging will occur. So we shall run diagnostic queries along these lines to establish the consequences of an alert being raised. We can see that for our initial network there is a 34.0\% chance that given an alert was triggered that an anomalous ruling will be logged and a 66.0\% chance that a normal ruling will be logged. Conversely if we consider the condition on which an alert triggered is false we see that there is a 0\% probability both for it to log anomalous results and log normal results, this behaviour matches the intended specification.
 
 \section{Part 2}
 
@@ -216,12 +228,112 @@ A full merging algorithm has been implemented including unit tests to demonstrat
 The system uses Encog networks as inputs, deconstructs them to a set of dependencies and probability tables then eliminates and combines dependencies/tables via usage of variation on Feng et al (2014) algorithm as highlighted in lecture slides\cite{feng}.
 
 A note of design consideration is in the requirement to retranslate our newly merged network to Encog we must preserve the order that the original networks understood the order of the arguments in the CPT. This allows us to correctly align our new CPT  probabilities with the correct set of inputs when combining probabilities.
-
-\subsubsection{Examples And Testing}
+\todo{talk about corner case}
+\subsubsection{Testing}
 
 A test suite has been provided which covers examples of merging simple networks.
 
-\todo{examples}
+\subsubsection{Example 1}
+
+Consider an example execution from one of our tests.
+
+We can see the form of our two initial networks as a pair of single dependency networks with a common node in C (Fig. \ref{fig:ex1_init_a}/\ref{fig:ex1_init_b}).
+\begin{figure}
+\centering
+  \includegraphics{ex1_init_a.png}
+  \caption{Example Network Combination A Network.}
+  \label{fig:ex1_init_a}
+\end{figure}
+
+\begin{figure}
+\centering
+  \includegraphics{ex1_init_b.png}
+  \caption{Example Network Combination B Network.}
+  \label{fig:ex1_init_b}
+\end{figure}
+
+Our merger identifies the intersection on C as well as that C is an external node given neither B nor A is in the intersection (Fig.\ref{fig:ex1_id_elem}).
+
+\begin{figure}
+\centering
+  \includegraphics{ex1_id_elem.png}
+  \caption{Example Network Intersection Identification.}
+  \label{fig:ex1_id_elem}
+\end{figure}
+
+We then observe the beginning of the addition to the new merged network (Fig. \ref{fig:ex1_comb_elem}). We observe that C is handled using ZE procedure with the probability product being produced for all combination of inputs across the node (Fig.\ref{fig:ex1_comb_prob}). The resulting probabilities are normalised via the sum of their probabilities in the table line(Fig.\ref{fig:ex1_norm_prob}).
+
+\begin{figure}
+\centering
+  \includegraphics{ex1_comb_elem.png}
+  \caption{Example Network Combination.}
+  \label{fig:ex1_comb_elem}
+\end{figure}
+
+\begin{figure}
+\centering
+  \includegraphics[width=\linewidth]{ex1_comb_prob.png}
+  \caption{Example Probability Combination.}
+  \label{fig:ex1_comb_prob}
+\end{figure}
+
+\begin{figure}
+\centering
+  \includegraphics[width=\linewidth]{ex1_norm_prob.png}
+  \caption{Example Probability Normalisation.}
+  \label{fig:ex1_norm_prob}
+\end{figure}
+
+
+There is no requirement to prune duplicate elements(Fig.\ref{fig:ex1_prune_dep}). This resulting network is of the form we would expect across this merge with c having two new parents of which their CPT is the combination of the originals\ref{fig:ex1_comb_net}.
+
+\begin{figure}
+\centering
+  \includegraphics{ex1_prune_dep.png}
+  \caption{Example Pruning Avoidance.}
+  \label{fig:ex1_prune_dep}
+\end{figure}
+
+\begin{figure}
+\centering
+  \includegraphics{ex1_comb_net.png}
+  \caption{Example Combined Networks.}
+  \label{fig:ex1_comb_net}
+\end{figure}
+
+
+\subsubsection{Example 2}
+
+Let us consider our initial networks. An intersection of 2 nodes, on c and b, where c is dependent only on our root, as such being an inner node, and b is dependent on a or b, network dependent and c in both networks, making it an external node(Fig. \ref{fig:ex2_init_a}/\ref{fig:ex2_init_b}).
+\begin{figure}
+\centering
+  \includegraphics{ex2_init_a.png}
+  \caption{Example 1 Network Combination A Network.}
+  \label{fig:ex2_init_a}
+\end{figure}
+
+\begin{figure}
+\centering
+  \includegraphics{ex2_init_b.png}
+  \caption{Example 2 Network Combination B Network.}
+  \label{fig:ex2_init_b}
+\end{figure}
+
+The program identifies this(Fig. \ref{fig:ex2_id_elem}) and proceeds as before. However in this instance we have the case of pruning being required. Given that we would typically construct a probability table composed of all arguments combined across all possible values as our new probability table values, there are examples where this is impossible. In this case there would exist lines in the CPT where C could be both true and false. These lines are removed and the additional column in the arguments are removed as well.
+
+\begin{figure}
+\centering
+  \includegraphics{ex2_id_elem.png}
+  \caption{Example 2 Network Intersection Identification.}
+  \label{fig:ex2_id_elem}
+\end{figure}
+
+\begin{figure}
+\centering
+  \includegraphics{ex2_prune_dep.png}
+  \caption{Example 2 Network Pruning Dependencies.}
+  \label{fig:ex2_prune_dep}
+\end{figure}
 
 \subsubsection{Evaluation}
 
@@ -238,6 +350,11 @@ For example it's usage extends into providing quick queries but with approximate
 In Medicine Gene Regulatory Networks are molecular regulators which play a role in the production of body structures and as such is useful information to study to understand the body. It was found that Bayesian Networks could better model the structure of these networks than previous methods\cite{gene}.
 
 Alternate uses include biomonitoring to establish the quality of river water, for example by modelling the animal and plant life within a river to establish the health of the river. It was found that Bayesian significantly outperformed the former methods of doing so\cite{biomonitoring}.
+
+\section{Part 3}
+
+An expert system for querying the bayesian network provided in part 2 has been created. One may query it using formal definitions of queries. 
+
 \begin{thebibliography}{9}
 \bibitem{feng} 
 Feng G., Zhang J., Liao S., 

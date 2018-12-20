@@ -1,13 +1,15 @@
 TODO illustrate differences in network1 and network2
 
-TODO execute example queries in code
+TODO profiling query ??? HIGH PRIORITY
+
+TODO execute example queries in code ??? MEDIUM PRIORITY
 
 TODO write report
 
-TODO more tests
+TODO more tests ??? LOW PRIORITY
 
-TODO example executions
+TODO extensions 1/2 ??? HIGH PRIORITY
 
-TODO extensions 1/2
+TODO rescreencap example1 b network init
 
-TODO print outputs in code (related to examples)
+TODO remove negation inclusion in print table

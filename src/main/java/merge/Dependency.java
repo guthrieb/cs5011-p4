@@ -24,9 +24,7 @@ public class Dependency {
 
     @Override
     public String toString() {
-        return "Dependency{" +
-                "parent='" + parent + '\'' +
-                '}';
+        return parent + " --> " + dependant;
     }
 
     @Override

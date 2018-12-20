@@ -1,5 +1,6 @@
 package merge;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.encog.ml.bayesian.table.TableLine;
 
 import java.util.ArrayList;
@@ -7,19 +8,31 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Probability {
+    private final Origin origin;
     double probability;
     boolean[] arguments;
     boolean result;
-    List<String> inputs = new ArrayList<>();
+    List<String> inputs;
 
-    public Probability(double probability, boolean[] arguments, boolean result, List<String> inputs) {
+    public void removeColumn(int i) {
+        inputs.remove(i);
+        arguments = ArrayUtils.remove(arguments, i);
+    }
+
+    enum Origin{
+        MERGE, ONE, TWO
+    }
+
+
+    public Probability(double probability, boolean[] arguments, boolean result, List<String> inputs, Origin origin) {
         this.probability = probability;
         this.arguments = arguments;
         this.result = result;
         this.inputs = inputs;
+        this.origin = origin;
     }
 
-    public Probability(TableLine line, List<String> inputs) {
+    public Probability(TableLine line, List<String> inputs, Origin origin) {
         double probability = line.getProbability();
         int[] arguments = line.getArguments();
         boolean[] boolArguments = new boolean[arguments.length];
@@ -31,6 +44,7 @@ public class Probability {
         this.arguments = boolArguments;
         this.result = line.getResult() ==0;
         this.inputs = inputs;
+        this.origin = origin;
     }
 
     static Probability combineProbability(Probability p1, Probability p2) {
@@ -42,7 +56,7 @@ public class Probability {
         List<String> inputs = new ArrayList<>(p1.inputs);
         inputs.addAll(p2.inputs);
 
-        return new Probability(newProbability, res, p1.result, inputs);
+        return new Probability(newProbability, res, p1.result, inputs, Origin.MERGE);
     }
 
     @Override

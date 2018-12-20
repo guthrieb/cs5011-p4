@@ -3,7 +3,6 @@ package main;
 import merge.NetworkMerger;
 import org.encog.ml.bayesian.BayesianEvent;
 import org.encog.ml.bayesian.BayesianNetwork;
-import org.encog.ml.bayesian.EventType;
 import org.encog.ml.bayesian.query.enumerate.EnumerationQuery;
 
 public class BN1 {
@@ -16,6 +15,29 @@ public class BN1 {
     public static final double PROB_ANOMALOUS_INVESTIGATION_RESULT = 0.1;
     public static final double PROB_LOGGING_ERROR = 0.3;
     private static final double PROB_BUSINESS_EMAIL_DETECTED = 0.9;
+    public static final String DAY_RISK_LABEL = "highRiskDay";
+    public static final String HOLIDAY_OR_POLITICAL_DAY_LABEL = "holidayOrPoliticalDay";
+    public static final String OUT_OF_DATE_VULNERABILITY_LABEL = "outOfDateVulnerability";
+    public static final String MAINTENANCE_INFO_OUT_OF_DATE_LABEL = "maintenanceInfoOutOfDate";
+    public static final String MAINTENANCE_RISK_LEVEL_LABEL = "maintenanceRiskLevel";
+    public static final String FIREWALL_DOWN_LABEL = "firewallDown";
+    public static final String MAINTENANCE_PLANNED_LABEL = "maintenancePlanned";
+    public static final String DETECTED_EMAIL_RISK_LEVEL_LABEL = "detectedEmailRiskLevel";
+    public static final String ACTUAL_EMAIL_RISK_LEVEL_LABEL = "actualEmailRiskLevel";
+    public static final String EMAIL_MISINFORMATION_ERROR_LABEL = "emailMisinformationError";
+    public static final String PERSONAL_EMAIL_DETECTED_LABEL = "personalEmailDetected";
+    public static final String BUSINESS_EMAIL_DETECTED_LABEL = "businessEmailDetected";
+    public static final String EMAIL_DETECTED_LABEL = "emailDetected";
+    public static final String OVERALL_RISK_LEVEL_LABEL = "highRiskLevel";
+    public static final String ALERT_LABEL = "alert";
+    public static final String INVESTIGATION_LABEL = "investigation";
+    public static final String LOGGING_ERROR_LABEL = "loggingError";
+    public static final String ANOMALOUS_RULING_LABEL = "anomalousRuling";
+    public static final String NORMAL_RULING_LABEL = "normalRuling";
+    public static final String LOG_ANOMALOUS_LABEL = "logAnomalous";
+    public static final String LOG_NORMAL_LABEL = "logNormal";
+    public static final String BUREAUCRATIC_FAILURE_LABEL = "bureaucraticFailure";
+    public static final String FLAGGED_FORBIDDEN_LABEL = "flaggedForbidden";
 
     public static void main(String[] args) {
         BayesianNetwork network2 = constructBN1(true);
@@ -24,86 +46,98 @@ public class BN1 {
         NetworkMerger merger = new NetworkMerger();
         BayesianNetwork merge = merger.merge(network1, network2);
 
-        double n1q1 = query1(network1);
-        double n2q1 = query1(network2);
-        double nmq1 = query1(merge);
+//        performPredictiveQuery(network2, network1, merge);
 
-        System.out.println("Network 1: " +n1q1);
-        System.out.println("Network 2: " + n2q1);
-        System.out.println("Network 3: " + nmq1);
+//        performDiagnosticQuery(network2, network1, merge);
 
-        double n1q2 = query2(network1);
-        double n2q2 = query2(network2);
-        double nmq2 = query2(merge);
+        observeRiskAlertRelationships(network2, network1, true);
+        observeRiskAlertRelationships(network2, network1, false);
+        observeAlertLoggingRelationships(network2, network1, true);
+        observeAlertLoggingRelationships(network2, network1, false);
+
+    }
+
+
+    private static void observeRiskAlertRelationships(BayesianNetwork network2, BayesianNetwork network1, boolean positive) {
+        System.out.println("\nPROFILING QUERY");
+        EnumerationQuery n1q3p1 = Queries.probabilityEmailRiskCausedAlert(network1, positive);
+        EnumerationQuery n2q3p1 = Queries.probabilityEmailRiskCausedAlert(network2,positive);
 
         System.out.println();
-        System.out.println("Network 1: " +n1q2);
-        System.out.println("Network 2: " + n2q2);
-        System.out.println("Network 3: " + nmq2);
+        System.out.println( n1q3p1);
+        System.out.println( n2q3p1);
 
+        EnumerationQuery n1q3p2 = Queries.probabilityDayRiskCausedAlert(network1, positive);
+        EnumerationQuery n2q3p2 = Queries.probabilityDayRiskCausedAlert(network2, positive);
+
+        System.out.println();
+        System.out.println( n1q3p2);
+        System.out.println(n2q3p2);
+
+        EnumerationQuery n1q3p3 = Queries.probabilityMaintenanceRiskCausedAlert(network1, positive);
+        EnumerationQuery n2q3p3 = Queries.probabilityMaintenanceRiskCausedAlert(network2, positive);
+
+        System.out.println();
+        System.out.println(n1q3p3);
+        System.out.println(n2q3p3);
     }
 
-    public static double query1(BayesianNetwork network) {
-        BayesianEvent evidence = network.getEvent("alert");
-        BayesianEvent outcome = network.getEvent("logAnomalous");
-        EnumerationQuery query = new EnumerationQuery(network);
-        query.defineEventType(outcome, EventType.Outcome);
-        query.defineEventType(evidence, EventType.Evidence);
-        query.setEventValue(outcome, true);
-        query.setEventValue(evidence, true);
-        query.execute();
-        return query.getProbability();
+    private static void observeAlertLoggingRelationships(BayesianNetwork network2, BayesianNetwork network1, boolean positive) {
+        System.out.println("\nPROFILING QUERY");
+
+        EnumerationQuery n1q3p4 = Queries.probabilityAlertLeadsToAnomalousLogging(network1, positive);
+        EnumerationQuery n2q3p4 = Queries.probabilityAlertLeadsToAnomalousLogging(network2, positive);
+
+        System.out.println();
+        System.out.println(n1q3p4);
+        System.out.println(n2q3p4);
+
+        EnumerationQuery n1q3p5 = Queries.probabilityAlertLeadsToNormalLogging(network1, positive);
+        EnumerationQuery n2q3p5 = Queries.probabilityAlertLeadsToNormalLogging(network2, positive);
+
+        System.out.println();
+        System.out.println(n1q3p5);
+        System.out.println(n2q3p5);
     }
 
-    public static double query2(BayesianNetwork network) {
-        BayesianEvent evidence = network.getEvent("detectedEmailRiskLevel");
-        BayesianEvent outcome = network.getEvent("businessEmailDetected");
-        EnumerationQuery query = new EnumerationQuery(network);
-        query.defineEventType(outcome, EventType.Outcome);
-        query.defineEventType(evidence, EventType.Evidence);
-        query.setEventValue(outcome, true);
-        query.setEventValue(evidence, true);
-        query.execute();
-        return query.getProbability();
-    }
 
     public static BayesianNetwork constructBN1(boolean network2) {
         BayesianNetwork network = new BayesianNetwork();
 
-        BayesianEvent emailDetected = network.createEvent("emailDetected");
-        BayesianEvent businessEmailDetected = network.createEvent("businessEmailDetected");
-        BayesianEvent personalEmailDetected = network.createEvent("personalEmailDetected");
-        BayesianEvent emailMisinformationError = network.createEvent("emailMisinformationError");
-        BayesianEvent actualEmailRiskLevel = network.createEvent("actualEmailRiskLevel");
-        BayesianEvent detectedEmailRiskLevel = network.createEvent("detectedEmailRiskLevel");
+        BayesianEvent emailDetected = network.createEvent(EMAIL_DETECTED_LABEL);
+        BayesianEvent businessEmailDetected = network.createEvent(BUSINESS_EMAIL_DETECTED_LABEL);
+        BayesianEvent personalEmailDetected = network.createEvent(PERSONAL_EMAIL_DETECTED_LABEL);
+        BayesianEvent emailMisinformationError = network.createEvent(EMAIL_MISINFORMATION_ERROR_LABEL);
+        BayesianEvent actualEmailRiskLevel = network.createEvent(ACTUAL_EMAIL_RISK_LEVEL_LABEL);
+        BayesianEvent detectedEmailRiskLevel = network.createEvent(DETECTED_EMAIL_RISK_LEVEL_LABEL);
 
-        BayesianEvent maintenancePlanned = network.createEvent("maintenancePlanned");
-        BayesianEvent firewallDown = network.createEvent("firewallDown");
-        BayesianEvent maintenanceRiskLevel = network.createEvent("maintenanceRiskLevel");
-        BayesianEvent maintenanceInfoOutOfDate = network.createEvent("maintenanceInfoOutOfDate");
-        BayesianEvent outOfDateVulnerability = network.createEvent("outOfDateVulnerability");
+        BayesianEvent maintenancePlanned = network.createEvent(MAINTENANCE_PLANNED_LABEL);
+        BayesianEvent firewallDown = network.createEvent(FIREWALL_DOWN_LABEL);
+        BayesianEvent maintenanceRiskLevel = network.createEvent(MAINTENANCE_RISK_LEVEL_LABEL);
+        BayesianEvent maintenanceInfoOutOfDate = network.createEvent(MAINTENANCE_INFO_OUT_OF_DATE_LABEL);
+        BayesianEvent outOfDateVulnerability = network.createEvent(OUT_OF_DATE_VULNERABILITY_LABEL);
 
-        BayesianEvent holidayOrPoliticalDay = network.createEvent("holidayOrPoliticalDay");
-        BayesianEvent highRiskDay = network.createEvent("highRiskDay");
+        BayesianEvent holidayOrPoliticalDay = network.createEvent(HOLIDAY_OR_POLITICAL_DAY_LABEL);
+        BayesianEvent highRiskDay = network.createEvent(DAY_RISK_LABEL);
 
-        BayesianEvent highRiskLevel = network.createEvent("highRiskLevel");
-        BayesianEvent alert = network.createEvent("alert");
+        BayesianEvent highRiskLevel = network.createEvent(OVERALL_RISK_LEVEL_LABEL);
+        BayesianEvent alert = network.createEvent(ALERT_LABEL);
 
-        BayesianEvent investigation = network.createEvent("investigation");
-        BayesianEvent loggingError = network.createEvent("loggingError");
-        BayesianEvent anomalousRuling = network.createEvent("anomalousRuling");
-        BayesianEvent normalRuling = network.createEvent("normalRuling");
-        BayesianEvent logAnomalous = network.createEvent("logAnomalous");
-        BayesianEvent logNormal = network.createEvent("logNormal");
+        BayesianEvent investigation = network.createEvent(INVESTIGATION_LABEL);
+        BayesianEvent loggingError = network.createEvent(LOGGING_ERROR_LABEL);
+        BayesianEvent anomalousRuling = network.createEvent(ANOMALOUS_RULING_LABEL);
+        BayesianEvent normalRuling = network.createEvent(NORMAL_RULING_LABEL);
+        BayesianEvent logAnomalous = network.createEvent(LOG_ANOMALOUS_LABEL);
+        BayesianEvent logNormal = network.createEvent(LOG_NORMAL_LABEL);
 
         BayesianEvent bureaucraticFailure = null;
         BayesianEvent flaggedForbidden = null;
-        if(network2) {
-            bureaucraticFailure = network.createEvent("bureaucraticFailure");
-            flaggedForbidden = network.createEvent("flaggedForbidden");
+        if (network2) {
+            bureaucraticFailure = network.createEvent(BUREAUCRATIC_FAILURE_LABEL);
+            flaggedForbidden = network.createEvent(FLAGGED_FORBIDDEN_LABEL);
         }
 
-        if(flaggedForbidden != null) {
+        if (flaggedForbidden != null) {
             addEmailDependencies(network, emailDetected, businessEmailDetected, personalEmailDetected, emailMisinformationError, actualEmailRiskLevel, detectedEmailRiskLevel, flaggedForbidden);
         } else {
             addEmailDependencies(network, emailDetected, businessEmailDetected, personalEmailDetected, emailMisinformationError, actualEmailRiskLevel, detectedEmailRiskLevel);
@@ -113,7 +147,7 @@ public class BN1 {
 
         addAlertDependencies(network, highRiskLevel, alert, detectedEmailRiskLevel, maintenanceRiskLevel, highRiskDay);
 
-        if(bureaucraticFailure != null) {
+        if (bureaucraticFailure != null) {
             addLoggingDependencies(network, alert, investigation, loggingError, anomalousRuling, normalRuling, logAnomalous, logNormal, bureaucraticFailure);
         } else {
             addLoggingDependencies(network, alert, investigation, loggingError, anomalousRuling, normalRuling, logAnomalous, logNormal);
@@ -122,7 +156,7 @@ public class BN1 {
 
         network.finalizeStructure();
 
-        if(flaggedForbidden != null) {
+        if (flaggedForbidden != null) {
             addEmailProbabilities(emailDetected, businessEmailDetected, personalEmailDetected, emailMisinformationError,
                     actualEmailRiskLevel, detectedEmailRiskLevel, flaggedForbidden);
         } else {
@@ -133,7 +167,7 @@ public class BN1 {
                 outOfDateVulnerability);
         addDayProbabilities(holidayOrPoliticalDay, highRiskDay);
 
-        if(bureaucraticFailure != null) {
+        if (bureaucraticFailure != null) {
             addLoggingProbabilities(investigation, loggingError, anomalousRuling, normalRuling, logAnomalous, logNormal,
                     bureaucraticFailure);
         } else {
@@ -147,15 +181,16 @@ public class BN1 {
         return network;
     }
 
+
     private static void addLoggingProbabilities(BayesianEvent investigation, BayesianEvent loggingError,
                                                 BayesianEvent anomalousRuling, BayesianEvent normalRuling,
                                                 BayesianEvent logAnomalous, BayesianEvent logNormal,
                                                 BayesianEvent bureaucraticFailure) {
 
-        investigation.getTable().addLine(0.0, true,true, true);
-        investigation.getTable().addLine(1.0, true,true, false);
-        investigation.getTable().addLine(0.0, true,false, true);
-        investigation.getTable().addLine(0.0, true,false, false);
+        investigation.getTable().addLine(0.0, true, true, true);
+        investigation.getTable().addLine(1.0, true, true, false);
+        investigation.getTable().addLine(0.0, true, false, true);
+        investigation.getTable().addLine(0.0, true, false, false);
 
         bureaucraticFailure.getTable().addLine(0.01, true, true);
         bureaucraticFailure.getTable().addLine(0.00, true, false);
@@ -295,7 +330,7 @@ public class BN1 {
     }
 
     private static void addDayProbabilities(BayesianEvent holidayOrPoliticalDay, BayesianEvent highRiskDay) {
-        holidayOrPoliticalDay.getTable().addLine(100.0/360.0, true);
+        holidayOrPoliticalDay.getTable().addLine(100.0 / 360.0, true);
         highRiskDay.getTable().addLine(1.0, true, true);
         highRiskDay.getTable().addLine(0.0, true, false);
     }
@@ -350,6 +385,7 @@ public class BN1 {
 
         network.createDependency(emailMisinformationError, detectedEmailRiskLevel);
     }
+
     private static void addEmailDependencies(BayesianNetwork network, BayesianEvent emailDetected,
                                              BayesianEvent businessEmailDetected, BayesianEvent personalEmailDetected,
                                              BayesianEvent emailMisinformationError, BayesianEvent actualEmailRiskLevel,

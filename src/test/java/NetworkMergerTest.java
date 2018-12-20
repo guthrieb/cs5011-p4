@@ -147,6 +147,51 @@ public class NetworkMergerTest {
         checkProbabilityCorrect(0.2, TOLERANCE, cRes, query);
     }
 
+    @Test
+    public void combiningTwoNetworksWithMutualParents() {
+        BayesianNetwork network1 = new BayesianNetwork();
+        BayesianNetwork network2 = new BayesianNetwork();
+
+        BayesianEvent a = network1.createEvent("a");
+        BayesianEvent c1 = network1.createEvent("c");
+        BayesianEvent b1 = network1.createEvent("b");
+
+        BayesianEvent c2 = network2.createEvent("c");
+        BayesianEvent b2 = network2.createEvent("b");
+        BayesianEvent d = network2.createEvent("d");
+
+
+        network1.createDependency(a, b1);
+        network1.createDependency(c1, b1);
+
+        network2.createDependency(d, b2);
+        network2.createDependency(c2, b2);
+
+        network1.finalizeStructure();
+        network2.finalizeStructure();
+
+        a.getTable().addLine(0.1, true);
+        c1.getTable().addLine(0.4, true);
+        b1.getTable().addLine(0.8, true, true, true);
+        b1.getTable().addLine(0.4, true, true, false);
+        b1.getTable().addLine(0.3, true, false, true);
+        b1.getTable().addLine(0.0, true, false, false);
+
+
+        d.getTable().addLine(0.4, true);
+        c2.getTable().addLine(0.7, true);
+        b2.getTable().addLine(0.7, true, true, true);
+        b2.getTable().addLine(0.5, true, true, false);
+        b2.getTable().addLine(0.5, true, false, true);
+        b2.getTable().addLine(0.1, true, false, false);
+
+        network1.validate();
+        network2.validate();
+
+        NetworkMerger merger = new NetworkMerger();
+        BayesianNetwork merge = merger.merge(network1, network2);
+    }
+
 
     private void checkProbabilityCorrect(double expectedTrueOutput, double delta, BayesianEvent target, EnumerationQuery query) {
         query.setEventValue(target, true);
